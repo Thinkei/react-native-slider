@@ -77,6 +77,11 @@ export default class Slider extends PureComponent {
     maximumValue: PropTypes.number,
 
     /**
+     * Initial maximum draggable value of the slider. Default value is 1.
+     */
+    maximumDraggableValue: PropTypes.number,
+
+    /**
      * Step value of the slider. The value should be between 0 and
      * (maximumValue - minimumValue). Default value is 0.
      */
@@ -173,6 +178,7 @@ export default class Slider extends PureComponent {
     value: 0,
     minimumValue: 0,
     maximumValue: 1,
+    maximumDraggableValue: 1,
     step: 0,
     minimumTrackTintColor: '#3f3f3f',
     maximumTrackTintColor: '#b3b3b3',
@@ -451,17 +457,24 @@ export default class Slider extends PureComponent {
   _getCurrentValue = () => this.state.value.__getValue();
 
   _setCurrentValue = (value: number) => {
-    this.state.value.setValue(value);
+    const maximumDraggableValue = this.props.maximumDraggableValue;
+
+    if(value <= maximumDraggableValue) {
+      this.state.value.setValue(value);
+    } else {
+      this.state.value.setValue(maximumDraggableValue);
+    }
   };
 
   _setCurrentValueAnimated = (value: number) => {
+    const maximumDraggableValue = this.props.maximumDraggableValue;
     const animationType = this.props.animationType;
     const animationConfig = Object.assign(
       {},
       DEFAULT_ANIMATION_CONFIGS[animationType],
       this.props.animationConfig,
       {
-        toValue: value,
+        toValue: value <= maximumDraggableValue ? value: maximumDraggableValue,
       },
     );
 
