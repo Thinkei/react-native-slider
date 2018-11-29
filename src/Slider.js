@@ -459,7 +459,7 @@ export default class Slider extends PureComponent {
   _setCurrentValue = (value: number) => {
     const maximumDraggableValue = this.props.maximumDraggableValue;
 
-    if(value <= maximumDraggableValue) {
+    if (value <= maximumDraggableValue) {
       this.state.value.setValue(value);
     } else {
       this.state.value.setValue(maximumDraggableValue);
@@ -474,7 +474,7 @@ export default class Slider extends PureComponent {
       DEFAULT_ANIMATION_CONFIGS[animationType],
       this.props.animationConfig,
       {
-        toValue: value <= maximumDraggableValue ? value: maximumDraggableValue,
+        toValue: value <= maximumDraggableValue ? value : maximumDraggableValue,
       },
     );
 
