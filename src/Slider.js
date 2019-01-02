@@ -611,7 +611,7 @@ var defaultStyles = StyleSheet.create({
 
 // https://github.com/jeanregisser/react-native-slider/issues/118
 const fixMaximumValueUpdate = Component =>
-  class extends PureComponent {
+  class FixMaximumValueUpdateSlider extends PureComponent {
     state = {
       value: this.props.value,
       maximumValue: this.props.maximumValue,
