@@ -48,7 +48,7 @@ const DEFAULT_ANIMATION_CONFIGS = {
   // }
 };
 
-export default class Slider extends PureComponent {
+class Slider extends PureComponent {
   static propTypes = {
     /**
      * Initial value of the slider. The value should be between minimumValue
@@ -608,3 +608,35 @@ var defaultStyles = StyleSheet.create({
     opacity: 0.5,
   },
 });
+
+// https://github.com/jeanregisser/react-native-slider/issues/118
+const fixMaximumValueUpdate = Component =>
+  class extends PureComponent {
+    state = {
+      value: this.props.value,
+      maximumValue: this.props.maximumValue,
+    };
+
+    render() {
+      return <Component {...this.props} maximumValue={this.state.maximumValue} value={this.state.value} />;
+    }
+
+    _updateStateValue(prevState) {
+      if (this.props.value !== prevState.value) {
+        this.setState({ value: this.props.value });
+      }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.maximumValue !== prevState.maximumValue) {
+        // Update value after maximumValue
+        this.setState({ maximumValue: this.props.maximumValue }, () => {
+          updateStateValue(prevState);
+        });
+      } else {
+        updateStateValue(prevState);
+      }
+    }
+  };
+
+export default fixMaximumValueUpdate(Slider);
