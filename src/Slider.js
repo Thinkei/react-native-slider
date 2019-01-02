@@ -631,10 +631,10 @@ const fixMaximumValueUpdate = Component =>
       if (this.props.maximumValue !== prevState.maximumValue) {
         // Update value after maximumValue
         this.setState({ maximumValue: this.props.maximumValue }, () => {
-          updateStateValue(prevState);
+          _updateStateValue(prevState);
         });
       } else {
-        updateStateValue(prevState);
+        _updateStateValue(prevState);
       }
     }
   };
